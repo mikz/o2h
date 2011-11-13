@@ -22,19 +22,19 @@ namespace :deploy do
       default_template = <<-EOF
 login: &login
 adapter: postgresql
-username: #{application.split(".").first}
+username: #{application}
 
 production:
 <<: *login
-database: #{application.split(".").first}
+database: #{application}
 
 development:
 <<: *login
-database: #{application.split(".").first}_dev
+database: #{application}_dev
 
 test: &test
 <<: *login
-database: #{application.split(".").first}_test
+database: #{application}_test
 
 cucumber:
 <<: *test

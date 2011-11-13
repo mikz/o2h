@@ -1,7 +1,7 @@
+set :bluepill, "`which system_bluepill`"
+
 before "deploy:update", "bluepill:stop"
 after "deploy:update", "bluepill:start"
-
-bluepill = get(:bluepill, "`which system_bluepill`")
 
 namespace :bluepill do
 
