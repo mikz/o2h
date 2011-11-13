@@ -1,5 +1,5 @@
 require "o2h/version"
 
 module O2h
-  # Your code goes here...
+  autoload :VERSION, 'o2h/version'
 end
