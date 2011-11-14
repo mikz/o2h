@@ -1,4 +1,4 @@
-set(:deploy_to) { "/var/www/#{application}" }
+set(:deploy_to) { "/var/www/#{domain}" }
 set :group, :www
 
 server domain, :web, :app, :db
