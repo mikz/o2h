@@ -1,7 +1,7 @@
-set :application, "set your application name here"
-set :repository,  "set your repository location here"
+set :domain, 'mydomain.cz'
 
-set :scm, :subversion
+server self[:domain], :app, :web, :db, :primary => true
+
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 role :web, "your web-server here"                          # Your HTTP server, Apache/etc
@@ -14,9 +14,6 @@ role :db,  "your slave db-server here"
 
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
+#   
+#   task :stop do ; end#   
 # end
