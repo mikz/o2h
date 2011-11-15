@@ -20,7 +20,7 @@ namespace :bluepill do
 
   desc "Load bluepill configuration and start it"
   task :start, :roles => [:app] do
-    app = get(:application).split('.').first
+    app = get(:application)
     env = get(:bluepill_silverlight, %{LM_CONTAINER_NAME=background_jobs LM_TAG_NAMES=background_jobs:bluepill:#{app}})
 
     sudo "#{env} #{bluepill} load #{File.join(current_path, 'config', 'bluepill', 'production.pill')}"

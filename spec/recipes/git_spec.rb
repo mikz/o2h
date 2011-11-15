@@ -3,12 +3,11 @@ require 'spec_helper'
 describe "git" do
   include_context :capistrano
 
-  its([:scm]) { should == :git }
-  its([:branch]) { should == :master }
-  its([:deploy_via]) { should == :remote_cache }
-  its([:git_shallow_clone]) { should == true }
-  its([:git_enable_submodules]) { should == true }
-  its([:scm]) { should == :git }
+  its(:scm) { should == :git }
+  its(:branch) { should == :master }
+  its(:deploy_via) { should == :remote_cache }
+  its(:git_shallow_clone) { should == true }
+  its(:git_enable_submodules) { should == true }
 
   context 'without application set' do
     it 'call to repository should abort' do
