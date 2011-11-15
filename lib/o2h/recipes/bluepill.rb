@@ -20,10 +20,18 @@ namespace :bluepill do
 
   desc "Load bluepill configuration and start it"
   task :start, :roles => [:app] do
-    app = get(:application)
-    env = get(:bluepill_silverlight, %{LM_CONTAINER_NAME=background_jobs LM_TAG_NAMES=background_jobs:bluepill:#{app}})
+    app = fetch(:application)
+    cmd = []
 
-    sudo "#{env} #{bluepill} load #{File.join(current_path, 'config', 'bluepill', 'production.pill')}"
+    cmd << try_sudo unless try_sudo.empty?
+
+    if fetch(:silverlight, false)
+      cmd << fetch(:bluepill_silverlight, %{LM_CONTAINER_NAME=background_jobs LM_TAG_NAMES=background_jobs:bluepill:#{app}})
+    end
+
+    cmd << fetch(:bluepill) << 'load' << File.join(current_path, 'config', 'bluepill', 'production.pill')
+
+    run cmd.compact.join(" ")
   end
 
   desc "Prints bluepills monitored processes statuses"

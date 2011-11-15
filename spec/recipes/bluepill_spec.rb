@@ -18,4 +18,19 @@ describe "bluepill" do
   it "should set :bluepill" do
     subject[:bluepill].should_not be_nil
   end
+
+  context "start task" do
+    before {
+      subject.load 'deploy'
+      subject.set :application, "my-app"
+      subject.set :current_path, "current-path"
+      subject.set :bluepill, "bluepill"
+      subject.set :use_sudo, false
+    }
+
+    it "runs bluepill command" do
+      subject.find_and_execute_task("bluepill:start")
+      subject.should have_run("bluepill load current-path/config/bluepill/production.pill")
+    end
+  end
 end
