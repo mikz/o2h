@@ -1,3 +1,8 @@
+guard 'bundler' do
+  watch('Gemfile')
+  watch(/^.+\.gemspec/)
+end
+
 guard 'spork' do
   watch('Gemfile')
   watch('Gemfile.lock')
@@ -10,6 +15,5 @@ guard 'rspec', :version => 2 do
   watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
   watch('spec/spec_helper.rb')                        { "spec" }
 end
-
 
 
