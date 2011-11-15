@@ -4,9 +4,9 @@ require File.expand_path('../lib/o2h/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Michal Cichra"]
   gem.email         = ["michal@o2h.cz"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Collection of recipes and gem dependencies for o2h deployment}
+  gem.summary       = gem.description
+  gem.homepage      = "http://o2h.cz"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
