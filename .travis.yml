@@ -4,4 +4,4 @@ rvm:
   - 1.9.2
   - 1.9.3
 script: rspec spec
-bundler_args: --only test
+bundler_args: --without darwin
