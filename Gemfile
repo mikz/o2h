@@ -9,7 +9,7 @@ gem 'guard-rspec'
 gem 'guard-spork'
 
 group :test do
-  gem 'spork', '>= 0.9.0.rc9'
+  gem 'spork', '>= 0.9.0.rc9', :require => false
   gem 'rspec'
   gem 'capistrano-spec'
 end
