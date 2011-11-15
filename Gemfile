@@ -9,6 +9,9 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'guard-bundler'
+
+  gem 'ruby-debug', :platforms => :mri_18
+  gem 'ruby-debug19', :platforms => :mri_19
 end
 
 group :test do
@@ -17,9 +20,6 @@ group :test do
   gem 'rspec'
 
   gem 'capistrano-spec'
-
-  gem 'ruby-debug', :platforms => :mri_18
-  gem 'ruby-debug19', :platforms => :mri_19
 end
 
 group :darwin do
