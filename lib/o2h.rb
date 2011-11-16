@@ -5,7 +5,7 @@ module O2h
 
 
   def capistrano(required = :require)
-    Capistrano::Configuration.instance(required)
+    defined?(Capistrano) and Capistrano::Configuration.instance(required)
   end
 
   def initialize!
