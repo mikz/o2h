@@ -1,3 +1,5 @@
+require 'simplecov' if ENV['COVERAGE']
+
 require 'spork'
 
 Spork.prefork do

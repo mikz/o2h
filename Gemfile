@@ -20,6 +20,8 @@ group :test do
   gem 'rspec'
 
   gem 'capistrano-spec'
+
+  gem 'simplecov', :require => false, :platforms => :mri_19
 end
 
 group :darwin do
