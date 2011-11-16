@@ -1,5 +1,26 @@
 module O2h
-  autoload :VERSION, 'o2h/version'
-end
+  extend self
 
-require 'newrelic_rpm'
+  autoload :VERSION, 'o2h/version'
+
+
+  def capistrano(required = :require)
+    Capistrano::Configuration.instance(required)
+  end
+
+  def initialize!
+    if capistrano(false)
+      app_mode
+    else
+      cap_mode
+    end
+  end
+
+  def app_mode
+    require 'o2h/recipes'
+  end
+
+  def cap_mode
+    require 'newrelic_rpm'
+  end
+end
