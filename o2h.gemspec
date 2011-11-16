@@ -17,5 +17,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'newrelic_rpm', '~> 3.3.0'
   gem.add_dependency 'capistrano', '~> 2.9.0'
-  #gem.add_dependency 'bundler', '>= 1.1.0'
+  gem.add_dependency 'rvm', '~> 1.9.2'
 end

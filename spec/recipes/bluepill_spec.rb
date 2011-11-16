@@ -35,8 +35,6 @@ describe "bluepill" do
         subject.set :rails_env, 'my-env'
       }
 
-      let(:task) { subject.find_task('bluepill:start') }
-
       it "runs bluepill command" do
         subject.execute_task(task)
         subject.should have_run("bluepill load current-path/config/bluepill/my-env.pill")
@@ -52,8 +50,6 @@ describe "bluepill" do
     end
 
     context 'status task' do
-      let(:task) { subject.find_task('bluepill:status') }
-
       it "runs status command" do
         subject.execute_task(task)
         subject.should have_run("bluepill status")
@@ -61,8 +57,6 @@ describe "bluepill" do
     end
 
     context 'stop task' do
-      let(:task) { subject.find_task('bluepill:stop') }
-
       it "runs status command" do
         subject.execute_task(task)
         subject.should have_run("bluepill stop; true")

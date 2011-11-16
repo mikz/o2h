@@ -7,6 +7,18 @@ shared_context :capistrano do
   let(:capistrano)  { Capistrano::Configuration.new }
   let(:recipe_name) { self.class.top_level_description }
   let(:recipe_path) { recipe(recipe_name) }
+
+  let(:task) do
+    task = self.class.ancestors.map do |example|
+      break $1 if /^(.+?) task$/ =~ example.description
+    end
+
+    if task
+      task = "#{recipe_name}:#{task}"
+      subject.find_task(task) or raise "Task #{task} not found"
+    end
+  end
+
   subject         { capistrano }
 
   before do
