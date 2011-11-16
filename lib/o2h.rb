@@ -24,3 +24,5 @@ module O2h
     require 'newrelic_rpm'
   end
 end
+
+O2h.initialize!
