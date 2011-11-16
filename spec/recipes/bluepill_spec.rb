@@ -25,6 +25,8 @@ describe "bluepill" do
       subject.load 'deploy'
       subject.set :bluepill, "bluepill"
       subject.set :use_sudo, false
+      subject.set :sudo_prompt, ''
+      subject.set :sudo, 'sudo -n'
     }
 
     context "start task" do
@@ -37,14 +39,14 @@ describe "bluepill" do
 
       it "runs bluepill command" do
         subject.execute_task(task)
-        subject.should have_run("bluepill load current-path/config/bluepill/my-env.pill")
+        subject.should have_run("#{subject.sudo} bluepill load current-path/config/bluepill/my-env.pill")
       end
 
       it "runs bluepill command in with silverlight env" do
         subject.set :silverlight, true
         subject.execute_task(task)
         env = "LM_CONTAINER_NAME=background_jobs LM_TAG_NAMES=background_jobs:bluepill:#{subject.application}"
-        subject.should have_run("#{env} bluepill load current-path/config/bluepill/my-env.pill")
+        subject.should have_run("#{subject.sudo} #{env} bluepill load current-path/config/bluepill/my-env.pill")
       end
 
     end
@@ -52,24 +54,22 @@ describe "bluepill" do
     context 'status task' do
       it "runs status command" do
         subject.execute_task(task)
-        subject.should have_run("bluepill status")
+        subject.should have_run("#{subject.sudo} bluepill status")
       end
     end
 
     context 'stop task' do
       it "runs status command" do
         subject.execute_task(task)
-        subject.should have_run("bluepill stop; true")
+        subject.should have_run("#{subject.sudo} bluepill stop; true")
       end
     end
 
     context 'quit task' do
-      let(:task) { subject.find_task('bluepill:quit') }
-
       it "runs status command" do
         subject.execute_task(task)
-        subject.should have_run("bluepill stop")
-        subject.should have_run("bluepill quit")
+        subject.should have_run("#{subject.sudo} bluepill stop")
+        subject.should have_run("#{subject.sudo} bluepill quit")
       end
 
       it "assings rollback" do
