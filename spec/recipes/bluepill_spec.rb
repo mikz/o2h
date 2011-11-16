@@ -79,6 +79,5 @@ describe "bluepill" do
       end
     end
 
-
   end
 end

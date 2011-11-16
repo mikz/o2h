@@ -27,6 +27,8 @@ shared_context :capistrano do
   end
 
   def recipe name
-    "lib/o2h/recipes/#{name}"
+    Dir["lib/o2h/recipes/**/*.rb"].find do |recipe|
+      File.basename(recipe, '.rb') == name
+    end
   end
 end
