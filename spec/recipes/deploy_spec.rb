@@ -18,7 +18,9 @@ describe "deploy" do
     context 'set_permissions task' do
 
       it "changes permissions of deploy directory" do
+        subject.load 'deploy'
         subject.set :group, 'my-group'
+        subject.set :use_sudo, false
         subject.execute_task(task)
         subject.should have_run("chgrp -R my-group #{subject.fetch(:deploy_to)}")
       end

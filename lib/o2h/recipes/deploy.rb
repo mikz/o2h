@@ -7,6 +7,6 @@ namespace :deploy do
   task :set_permissions do
     # Change the owner and group of everything under the
     # deployment directory to webadmin and apache
-    run "chgrp -R #{group} #{deploy_to}"
+    try_sudo "chgrp -R #{group} #{deploy_to}"
   end
 end
