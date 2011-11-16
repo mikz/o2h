@@ -7,15 +7,16 @@ namespace :bluepill do
 
   desc "Stop processes that bluepill is monitoring and quit bluepill"
   task :quit, :roles => [:app] do
-    sudo "#{bluepill} stop"
-    sudo "#{bluepill} quit"
+    try_sudo "#{fetch(:bluepill)} stop"
+    try_sudo "#{fetch(:bluepill)} quit"
   end
 
   desc "Stop processes that bluepill is monitoring"
   task :stop, :roles => [:app] do
-    on_rollback { start }
-
-    sudo "#{bluepill} stop; true"
+    transaction do
+      on_rollback { start }
+      try_sudo "#{fetch(:bluepill)} stop; true"
+    end
   end
 
   desc "Load bluepill configuration and start it"
@@ -23,20 +24,18 @@ namespace :bluepill do
     app = fetch(:application)
     cmd = []
 
-    cmd << try_sudo unless try_sudo.empty?
-
     if fetch(:silverlight, false)
       cmd << fetch(:bluepill_silverlight, %{LM_CONTAINER_NAME=background_jobs LM_TAG_NAMES=background_jobs:bluepill:#{app}})
     end
 
-    cmd << fetch(:bluepill) << 'load' << File.join(current_path, 'config', 'bluepill', 'production.pill')
+    cmd << fetch(:bluepill) << 'load' << File.join(current_path, 'config', 'bluepill', "#{rails_env}.pill")
 
-    run cmd.compact.join(" ")
+    try_sudo cmd.compact.join(" ")
   end
 
   desc "Prints bluepills monitored processes statuses"
   task :status, :roles => [:app] do
-    sudo "#{bluepill} status"
+    try_sudo "#{fetch(:bluepill)} status"
   end
 
 end
