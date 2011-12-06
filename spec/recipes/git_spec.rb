@@ -5,8 +5,7 @@ describe "git" do
 
   its(:scm) { should == :git }
   its(:branch) { should == :master }
-  its(:deploy_via) { should == :remote_cache }
-  its(:git_shallow_clone) { should == true }
+  its(:deploy_via) { should == :remote_git }
   its(:git_enable_submodules) { should == true }
 
   context 'without application set' do
