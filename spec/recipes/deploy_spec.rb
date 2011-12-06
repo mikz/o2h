@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe "deploy" do
+  before { subject.load('deploy') }
   include_context :capistrano
+
+  let(:deploy) { subject.namespaces[:deploy] }
 
   context "domain my-domain.com" do
     before {
@@ -12,7 +15,8 @@ describe "deploy" do
     its(:group) { should == :www }
 
     it "performs set_permissions after deploy" do
-      subject.should callback('deploy:set_permissions').after('deploy')
+#      raise deploy.callbacks[:after].inspect
+      deploy.should callback(:set_permissions).after(:update_code)
     end
 
     context 'set_permissions task' do

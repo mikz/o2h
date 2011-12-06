@@ -14,9 +14,10 @@ set(:current_revision)  { capture("cd #{current_path}; git rev-parse --short HEA
 set(:latest_revision)   { capture("cd #{current_path}; git rev-parse --short HEAD").strip }
 set(:previous_revision) { capture("cd #{current_path}; git rev-parse --short HEAD@{1}").strip }
 
-#after :'deploy:update_code', :'deploy:set_permissions', :roles => :web
+after 'deploy:update_code', 'deploy:set_permissions', :roles => :web
 
 namespace :deploy do
+
   task :set_permissions do
     # Change the owner and group of everything under the
     # deployment directory to webadmin and apache
