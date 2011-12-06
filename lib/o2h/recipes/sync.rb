@@ -90,12 +90,10 @@ namespace :sync do
     task :default do
       host, port = host_and_port
 
-      folder = fetch(:folder, ENV['folder'])
-
-      raise "no folder given" unless folder
+      folder = fetch(:folder, ENV['folder']) || "system"
 
       remote = File.join(shared_path, folder)
-      local = File.join('shared', folder)
+      local = fetch(:destination, ENV['destination']) || 'public'
 
       size = capture("find #{remote} | wc -l").strip.to_i
 
