@@ -64,7 +64,7 @@ namespace :sync do
       pg = PgDumper.new(local["database"], "psql")
       pg.auth = local
 
-      run_locally "gunzip #{sync_db_local_file} | #{pg.command}"
+      run_locally "gunzip --stdout #{sync_db_local_file} | #{pg.command}"
     end
 
     task :fetch do
