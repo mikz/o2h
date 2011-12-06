@@ -5,6 +5,9 @@ _cset(:sync_db_remote_config) { "#{shared_path}/config/database.yml" }
 _cset(:sync_db_local_file) { "tmp/#{sync_db_file}" }
 _cset(:sync_db_local_config) { "config/database.yml" }
 
+require 'pg_dumper'
+require 'capistrano/cli'
+
 namespace :sync do
 
   namespace :db do
@@ -45,11 +48,11 @@ namespace :sync do
 
       raise "remote database config not found" unless remote
 
-      require 'pg_dumper'
       pg = PgDumper.new(remote["database"], 'pg_dump')
       pg.output = remote_file
       pg.clean!
       pg.compress! 9
+      pg.skip_owner!
       pg.auth = remote
 
       run pg.command
@@ -60,11 +63,14 @@ namespace :sync do
       local = database_config
       raise "local database config not found" unless local
 
-      require 'pg_dumper'
       pg = PgDumper.new(local["database"], "psql")
       pg.auth = local
 
-      run_locally "gunzip --stdout #{sync_db_local_file} | #{pg.command}"
+      agree = Capistrano::CLI.ui.agree("Rewrite local database '#{local["database"]}'? (Yes, [No]) ") do |q|
+        q.default = 'n'
+      end
+
+      run_locally "gunzip --stdout #{sync_db_local_file} | #{pg.command}" if agree
     end
 
     task :fetch do

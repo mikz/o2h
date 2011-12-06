@@ -23,10 +23,11 @@ describe "sync" do
     end
 
     it "should set proper repository" do
+      Capistrano::CLI.ui.stub(:agree) { true }
       subject.should_receive(:download)
       subject.should_receive(:run_locally).with("gunzip --stdout tmp/app-dump.sql.gz | psql -p local-port local-db")
       subject.execute_task(task)
-      subject.should have_run("pg_dump -c -Z 9 -p #{port} -h #{host} -U #{username} -f /shared/app/backup/app-dump.sql.gz #{database}")
+      subject.should have_run("pg_dump -c -Z 9 --no-owner -p #{port} -h #{host} -U #{username} -f /shared/app/backup/app-dump.sql.gz #{database}")
     end
   end
 end
