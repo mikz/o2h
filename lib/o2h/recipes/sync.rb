@@ -46,7 +46,6 @@ namespace :sync do
       raise "remote database config not found" unless remote
 
       require 'pg_dumper'
-
       pg = PgDumper.new(remote["database"], 'pg_dump')
       pg.output = remote_file
       pg.clean!
@@ -61,6 +60,7 @@ namespace :sync do
       local = database_config
       raise "local database config not found" unless local
 
+      require 'pg_dumper'
       pg = PgDumper.new(local["database"], "psql")
       pg.auth = local
 
