@@ -77,6 +77,41 @@ namespace :sync do
       download sync_db_remote_file, sync_db_local_file, :via => sync_db_via
     end
   end
+
+  namespace :fs do
+    #
+    # Returns the actual host name to sync and port
+    #
+    def host_and_port
+      return roles[:web].servers.first.host, ssh_options[:port] || roles[:web].servers.first.port || 22
+    end
+
+    desc "Sync remote folder with local. Needs 'folder' argument."
+    task :default do
+      host, port = host_and_port
+
+      folder = fetch(:folder, ENV['folder'])
+
+      raise "no folder given" unless folder
+
+      remote = File.join(shared_path, folder)
+      local = File.join('shared', folder)
+
+      size = capture("du -sb #{remote} | awk '{print $1}'").strip.to_i
+
+      # --verbose --stats \ # this breaks pv
+
+      cmd = %{
+        rsync --archive --compres --delete \
+              --keep-dirlinks --copy-links \
+              --rsh='ssh -p #{port}' \
+              #{user}@#{host}:#{remote} #{local} | pv -p -t -e -s #{size} -r -a
+      }.gsub(/\s+/, ' ').gsub(/(^\s+|\s+$)/, '')
+
+      run_locally(cmd)
+    end
+
+  end
 end
 
 
