@@ -97,15 +97,15 @@ namespace :sync do
       remote = File.join(shared_path, folder)
       local = File.join('shared', folder)
 
-      size = capture("du -sb #{remote} | awk '{print $1}'").strip.to_i
+      size = capture("find #{remote} | wc -l").strip.to_i
 
       # --verbose --stats \ # this breaks pv
-
       cmd = %{
-        rsync --archive --compress --delete \
+        rsync --itemize-changes \
+              --archive --compress --delete \
               --keep-dirlinks --copy-links \
               --rsh='ssh -p #{port}' \
-              #{user}@#{host}:#{remote} #{local} | pv -p -t -e -s #{size} -r -a
+              #{user}@#{host}:#{remote} #{local} | pv -p -t -e -l -r -a -s #{size} > /dev/null
       }.gsub(/\s+/, ' ').gsub(/(^\s+|\s+$)/, '')
 
       run_locally(cmd)
