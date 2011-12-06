@@ -102,7 +102,7 @@ namespace :sync do
       # --verbose --stats \ # this breaks pv
 
       cmd = %{
-        rsync --archive --compres --delete \
+        rsync --archive --compress --delete \
               --keep-dirlinks --copy-links \
               --rsh='ssh -p #{port}' \
               #{user}@#{host}:#{remote} #{local} | pv -p -t -e -s #{size} -r -a
