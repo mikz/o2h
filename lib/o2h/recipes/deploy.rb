@@ -6,6 +6,8 @@ end
 set(:deploy_to) { "/var/www/#{domain}" }
 set :group, :www
 
+set(:shared_children) { %w(public/system log tmp/pids backup) }
+
 set(:latest_release)  { fetch(:current_path) }
 set(:release_path)    { fetch(:current_path) }
 set(:current_release) { fetch(:current_path) }
