@@ -1,0 +1,7 @@
+server: true
+safe: true
+auto: true
+markdown: rdiscount
+permalink: pretty
+exclude: Rakefile, README.md, Gemfile, Gemfile.lock
+

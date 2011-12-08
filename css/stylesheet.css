@@ -1,0 +1,24 @@
+body {
+  color: #E3E3E3;
+
+  background: #131313;
+  font-family: Georgia, "New York CE", utopia, serif;
+}
+
+header {
+  width: 30%;
+  margin: 0 auto;
+
+  letter-spacing: 0.25em;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+header p:first-child {
+  text-align: center;
+  padding-top: 60%;
+}
+
+.signature {
+  text-align: right;
+}
