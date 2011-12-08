@@ -18,6 +18,9 @@ module O2h
     require 'newrelic_rpm'
   end
 
+  def host(recipe)
+    File.expand_path(File.join(%w{o2h recipes host} << recipe + ".rb"), File.dirname(__FILE__))
+  end
 end
 
 O2h.initialize!
