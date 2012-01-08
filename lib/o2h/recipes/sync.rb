@@ -48,6 +48,9 @@ namespace :sync do
 
       raise "remote database config not found" unless remote
 
+      remote_dir = File.dirname(remote_file)
+      run "mkdir -p '#{remote_dir}'"
+
       pg = PgDumper.new(remote["database"], 'pg_dump')
       pg.output = remote_file
       pg.clean!

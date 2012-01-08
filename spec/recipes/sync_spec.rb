@@ -27,6 +27,7 @@ describe "sync" do
       subject.should_receive(:download)
       subject.should_receive(:run_locally).with("gunzip --stdout tmp/app-dump.sql.gz | psql -p local-port local-db")
       subject.execute_task(task)
+      subject.should have_run("mkdir -p '/shared/app/backup'")
       subject.should have_run("pg_dump -c -Z 9 --no-owner -p #{port} -h #{host} -U #{username} -f /shared/app/backup/app-dump.sql.gz #{database}")
     end
   end
