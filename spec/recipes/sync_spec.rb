@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe "sync" do
-  before { subject.load 'deploy' }
 
   include_context :capistrano
 
@@ -30,5 +29,19 @@ describe "sync" do
       subject.should have_run("mkdir -p '/shared/app/backup'")
       subject.should have_run("pg_dump -c -Z 9 --no-owner -p #{port} -h #{host} -U #{username} -f /shared/app/backup/app-dump.sql.gz #{database}")
     end
+
+    it "should call proper subtasks" do
+      namespace.should_receive(:dump)
+      namespace.should_receive(:fetch)
+      namespace.should_receive(:import)
+
+      subject.execute_task(task)
+    end
+  end
+
+  context 'db:fetch task' do
+    subject { task }
+
+    its(:description) { should match(/fetch/i) }
   end
 end

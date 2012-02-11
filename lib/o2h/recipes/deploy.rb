@@ -1,3 +1,5 @@
+load 'deploy'
+
 set(:strategy) do
   require 'o2h/capistrano/deploy/strategy/git'
   Capistrano::Deploy::Strategy::Git.new(self)

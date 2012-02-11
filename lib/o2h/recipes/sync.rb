@@ -1,3 +1,5 @@
+load 'deploy'
+
 _cset(:sync_db_via) { :scp }
 _cset(:sync_db_file) { "#{application}-dump.sql.gz" }
 _cset(:sync_db_remote_file) { "#{shared_path}/backup/#{sync_db_file}" }
@@ -76,6 +78,7 @@ namespace :sync do
       run_locally "gunzip --stdout #{sync_db_local_file} | #{pg.command}" if agree
     end
 
+    desc "Fetch dump file"
     task :fetch do
       download sync_db_remote_file, sync_db_local_file, :via => sync_db_via
     end
