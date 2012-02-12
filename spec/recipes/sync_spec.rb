@@ -4,6 +4,15 @@ describe "sync" do
 
   include_context :capistrano
 
+  context 'loading' do
+    it "should load deploy only once" do
+      capistrano.load('deploy')
+      capistrano.should_not_receive(:load).with('deploy')
+      capistrano.load recipe_path
+      capistrano.load recipe_path
+    end
+  end
+
   context 'db task' do
     let(:application) { "app" }
     let(:host) { "host" }

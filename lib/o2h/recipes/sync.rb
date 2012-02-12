@@ -1,4 +1,4 @@
-load 'deploy'
+load 'deploy' unless respond_to?(:_cset)
 
 _cset(:sync_db_via) { :scp }
 _cset(:sync_db_file) { "#{application}-dump.sql.gz" }
